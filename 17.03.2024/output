@@ -1,0 +1,31 @@
+Logistic Regression (Scikit-learn):
+              precision    recall  f1-score   support
+
+           0       0.26      0.11      0.16       743
+           1       0.34      0.70      0.46      1125
+           2       0.30      0.19      0.23       826
+           3       0.46      0.35      0.40       549
+           4       0.21      0.04      0.07       372
+           5       0.78      0.11      0.19        65
+
+    accuracy                           0.34      3680
+   macro avg       0.39      0.25      0.25      3680
+weighted avg       0.33      0.34      0.29      3680
+
+Confusion Matrix:
+ [[ 83 500  80  72   8   0]
+ [100 788 135  89  12   1]
+ [ 52 554 157  51  11   1]
+ [ 35 223  71 191  29   0]
+ [ 46 218  78  14  16   0]
+ [  0  48  10   0   0   7]]
+Accuracy: 0.3375
+Logistic Regression (PyTorch) Accuracy: 0.3375
+Single Layer Perceptron (SLP) Accuracy: 0.3377717391304348
+Multi Layer Perceptron (MLP) Accuracy: 0.7192934782608695
+
+Model Performance Summary:
+Logistic Regression (Scikit-learn): 0.3375
+Logistic Regression (PyTorch): 0.3375
+Single Layer Perceptron (SLP): 0.3377717391304348
+Multi Layer Perceptron (MLP): 0.7192934782608695

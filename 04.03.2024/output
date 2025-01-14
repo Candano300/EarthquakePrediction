@@ -1,0 +1,28 @@
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+[CV] END bootstrap=False, max_depth=30, min_samples_leaf=1, min_samples_split=2, n_estimators=200; total time=  19.0s
+[CV] END bootstrap=False, max_depth=30, min_samples_leaf=1, min_samples_split=2, n_estimators=200; total time=  19.2s
+[CV] END bootstrap=False, max_depth=30, min_samples_leaf=1, min_samples_split=2, n_estimators=200; total time=  19.3s
+[CV] END bootstrap=False, max_depth=30, min_samples_leaf=1, min_samples_split=2, n_estimators=200; total time=  19.6s
+[CV] END bootstrap=False, max_depth=30, min_samples_leaf=1, min_samples_split=2, n_estimators=200; total time=  19.7s
+Validation Results:
+              precision    recall  f1-score   support
+
+           1       0.96      0.98      0.97       743
+           2       0.98      0.97      0.98      1125
+           3       0.98      0.98      0.98       826
+           4       0.97      0.99      0.98       549
+           5       0.98      0.97      0.97       372
+           6       0.98      1.00      0.99        65
+
+    accuracy                           0.98      3680
+   macro avg       0.98      0.98      0.98      3680
+weighted avg       0.98      0.98      0.98      3680
+
+Confusion Matrix:
+ [[ 725    6    5    4    3    0]
+ [  17 1090    8    5    5    0]
+ [   8    8  806    4    0    0]
+ [   0    3    1  544    0    1]
+ [   7    1    2    2  360    0]
+ [   0    0    0    0    0   65]]
+Accuracy: 0.9755434782608695
