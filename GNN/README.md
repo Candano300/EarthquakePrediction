@@ -63,8 +63,8 @@ Input -> GCNConv -> BatchNorm -> ReLU -> Dropout
 - **Mean Absolute Error (MAE):** Captures the average prediction error.
 
 **Final Results:**
-- **RMSE:** 0.2296  
-- **MAE:** 0.1849
+- **RMSE:** 1.1216  
+- **MAE:** 0.9039
 
 ### 5. Observations
 
