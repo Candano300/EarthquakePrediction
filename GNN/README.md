@@ -70,8 +70,8 @@ Input -> GCNConv -> BatchNorm -> ReLU -> Dropout
 
 **Improvements:**
 - **Feature Integration:** Combining **genre**, **popularity**, and **average rating** improved accuracy.
-- **Batch Normalization:** Accelerated convergence and enhanced stability.
-- **Grid Search:** Improved model performance by tuning hyperparameters.
+- **Batch Normalization** 
+- **Grid Search** 
 
 **Unsuccessful Attempts:**
 - **Larger Hidden Layers (>128):** Led to overfitting.
