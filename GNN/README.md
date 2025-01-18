@@ -1,44 +1,39 @@
-# GNN Based Movie Recommendation
+# GNN-Based Movie Recommendation
 
 ## Project Overview
 
-The goal of this project was to build a Graph Neural Network (GNN) model to predict movie ratings and recommend movies to users. The primary focus was on understanding how Graph Convolution and Message Passing mechanisms work in GNNs, how inference is conducted, and how edge features are incorporated into the model.
-The data is taken from [MovieLens](https://grouplens.org/datasets/movielens/) 
+This project focuses on developing a **Graph Neural Network (GNN)** model to predict movie ratings and recommend movies to users. The model leverages **Graph Convolution** and **Message Passing** mechanisms, enhancing the recommendation process by incorporating user-movie interactions and enriched movie features.
+
+**Dataset:** [MovieLens](https://grouplens.org/datasets/movielens/)
+
 ## Project Workflow
 
 ### 1. Data Loading and Preprocessing
 
 **Datasets Used:**
-- `ratings.csv`: Contains user-movie ratings.
-- `movies.csv`: Contains movie metadata (title, genres).
-- `tags.csv`: Contains user tags for movies.
+- `ratings.csv`: User-movie ratings.
+- `movies.csv`: Movie metadata (title, genres).
+- `tags.csv`: User-assigned tags for movies.
 
 **Preprocessing Steps:**
-- **Missing Value Handling:** Checked for missing values in all datasets and filled them appropriately (`ratings_df`: 0, `movies_df`: 0, `tags_df`: 0).
-- **Label Encoding:** Applied Label Encoding to convert `movieId` and `userId` to numerical indices.
-- **Rating Normalization:** Normalized movie ratings to [0, 1] range to stabilize model training.
-- **Genre Encoding:** Encoded movie genres as multi-hot vectors using `MultiLabelBinarizer`.
-- **Feature Enrichment:** Calculated movie popularity (number of ratings) and average rating, normalized both, and merged with genre features.
-- **Edge Construction with RDDs:** Used PySpark RDDs for efficient graph edge construction, improving scalability.
-
-**Graph Construction:**
-- **Graph Structure:** Created `edge_index` to represent user-movie interactions.
-- **Edge Attributes:** Used normalized ratings as `edge_attr` to weigh edges, ensuring meaningful message passing between nodes.
+- **Missing Value Handling:** Filled missing values (`ratings_df`: 0, `movies_df`: 'Unknown', `tags_df`: 'Unknown').
+- **Label Encoding:** Encoded `movieId` and `userId` for numerical processing.
+- **Genre Encoding:** Multi-hot encoded genres using `MultiLabelBinarizer`.
+- **Feature Enrichment:** Integrated **movie popularity** (number of ratings) and **average rating** into movie features.
+- **Data Splitting:** Split the data into **70% Training**, **15% Validation**, and **15% Test** sets.
+- **Graph Construction:** Built `edge_index` for user-movie interactions and used **ratings as edge attributes** (`edge_attr`).
 
 ### 2. Model Architecture
 
-**Initial Model:**
-- A 2-layer GCN with ReLU activation predicted ratings via a dot product between user and movie embeddings.
-
-**Enhanced Model:**
-- **Three GCN Layers:** Expanded to a 3-layer GCN for deeper learning.
-- **Batch Normalization:** Added after each GCN layer to stabilize training.
-- **Dropout (0.3):** Introduced for regularization and to prevent overfitting.
-- **Optimizer:** Switched to AdamW optimizer with weight decay for better generalization.
-- **Learning Rate Scheduler:** Implemented `ReduceLROnPlateau` for adaptive learning rate control.
-- **Loss Function:** Changed to `SmoothL1Loss` (Huber Loss) for robustness against outliers.
-- **Gradient Clipping:** Applied with `max_norm=1.0` to prevent gradient explosion.
-- **Early Stopping:** Stopped training early if validation loss didn't improve.
+**Model Design:**
+- **3-Layer GCN:** Deeper learning with three GCN layers for user-movie relationships.
+- **Batch Normalization:** Stabilizes training after each GCN layer.
+- **Dropout (0.2/0.3):** Prevents overfitting.
+- **Optimizer:** **AdamW** optimizer with weight decay for better generalization.
+- **Learning Rate Scheduler:** **ReduceLROnPlateau** to adapt learning rates dynamically.
+- **Loss Function:** **SmoothL1Loss** for robustness against outliers.
+- **Gradient Clipping:** Applied with `max_norm=1.0`.
+- **Early Stopping:** Stops training if the validation loss doesn't improve over 10 epochs.
 
 **Final Model Architecture:**
 ```
@@ -48,29 +43,43 @@ Input -> GCNConv -> BatchNorm -> ReLU -> Dropout
       -> Fully Connected Layer -> Rating Prediction
 ```
 
-### 3. Experiments and Observations
+### 3. Hyperparameter Optimization
 
-**Successful Modifications:**
-- **Edge Features Integration:** Incorporating popularity and average ratings improved performance.
-- **Batch Normalization:** Enhanced convergence speed and stability.
-- **SmoothL1Loss:** Reduced sensitivity to outliers.
+**Grid Search Parameters:**
+- **Hidden Dimensions:** `[64, 128]`
+- **Dropout Rates:** `[0.2, 0.3]`
+- **Learning Rates:** `[0.005, 0.001]`
+- **Weight Decays:** `[1e-4, 1e-3]`
 
-**Unsuccessful Modifications:**
-- **Larger Hidden Layers:** Increasing hidden dimensions beyond 64 led to overfitting.
-- **High Dropout (>0.4):** Hampered learning capacity.
-- **Removing AdamW:** Switching back to standard Adam optimizer reduced performance.
+**Optimization Strategy:**
+- Iterates through all hyperparameter combinations.
+- Uses **validation RMSE** for model selection.
+- Implements **early stopping** and **adaptive learning rate scheduling**.
 
 ### 4. Model Evaluation
 
 **Evaluation Metrics:**
-- **Root Mean Squared Error (RMSE):** Measures the average magnitude of prediction errors.
-- **Mean Absolute Error (MAE):** Captures the average difference between predictions and actual ratings.
+- **Root Mean Squared Error (RMSE):** Measures prediction error magnitude.
+- **Mean Absolute Error (MAE):** Captures the average prediction error.
 
 **Final Results:**
-- **RMSE:** 0.2296
+- **RMSE:** 0.2296  
 - **MAE:** 0.1849
 
-Old runs can be found in the archive folder. 
+### 5. Observations
+
+**Improvements:**
+- **Feature Integration:** Combining **genre**, **popularity**, and **average rating** improved accuracy.
+- **Batch Normalization:** Accelerated convergence and enhanced stability.
+- **Grid Search:** Improved model performance by tuning hyperparameters.
+
+**Unsuccessful Attempts:**
+- **Larger Hidden Layers (>128):** Led to overfitting.
+- **High Dropout (>0.4):** Reduced learning capacity.
+
+### 6. Conclusion
+
+The enhanced GNN model with **hyperparameter optimization**, **early stopping**, and enriched movie features successfully predicts movie ratings with high accuracy. The integration of additional features and a deeper architecture notably improved performance.
 
 ### Reference
 
